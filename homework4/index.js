@@ -9,7 +9,7 @@ function isLoggden(req, res, next) {
 const app = express();
 app.use(session({ secret: 'cats' }));
 app.use(passport.initialize());
-app.use(passport.session()); 
+app.use(passport.session());
 
 //1st argument (path or url) 2nd call back function (insaid 2 arg)
 app.get('/', (req, res) => {
@@ -34,7 +34,13 @@ app.get('/auth/failure', (req, res) => {
 });
 
 app.get('/protected', isLoggden, (req, res) => {
-  res.send('Hello From Mariya !!');
+  res.send('Hello');
+});
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.send('GoodBye!!');
 });
 app.listen(3000, () => console.log('listening omn port 3000'));
 
