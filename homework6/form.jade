@@ -1,0 +1,25 @@
+doctype html
+style.
+  h2{text-align: center;}
+  body {background-color: powderblue;}
+  input    {background-color: pink;}
+h2 Employees Page 
+form(action='/action_page.php')
+  label(for='id') id:
+  br
+  input#id(type='text' name='id')
+  br
+  label(for='fname') First Name:
+  br
+  input#fname(type='text' name='fname')
+  br
+  label(for='lname') Last Name:
+  br
+  input#lname(type='text' name='lname')
+  br
+  label(for='email') Email:
+  br
+  input#email(type='text' name='email')
+  br
+  br
+  input(type='submit' value='Submit')
