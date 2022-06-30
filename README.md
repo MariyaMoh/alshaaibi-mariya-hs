@@ -5,10 +5,10 @@
 this project about employee website , the admin can do many things like:
 
 admin can -> add new employee
- id: Number
-  FirstName: String
-  LastName: String
-  email: String
+ id ,
+  FirstName ,
+  LastName ,
+  email
   
   admin can -> delete employee
   admin can -> update employee
