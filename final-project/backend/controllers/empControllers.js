@@ -1,10 +1,10 @@
 const asyncHandler = require('express-async-handler');
 const { findById } = require('../models/empModels');
-const emp = require('../models/empModels')
+const emp = require('../models/empModels');
+const user = require('../models/userModels');
 // get emp(s) route= GET/api/emp
 const getEmp = asyncHandler(async (req, res) => {
-
-    const emp= await emp.find()
+  const emp = await emp.find({ user: req.user.id });
   res.status(201).json(emp);
 });
 
@@ -14,32 +14,53 @@ const setEmp = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Please add a text field');
   }
-const emp = await emp.create({
-    text: req.body.text
-})
+  const emp = await emp.create({
+    text: req.body.text,
+    user: req.user.id,
+  });
   res.status(201).json(emp);
 });
 
 // update emp(s) route= PUT/api/emp:id
 const updateEmp = asyncHandler(async (req, res) => {
-    const emp = await emp.findById(req.params.id)
-    if(!emp){
-        res.status(400)
-        throw new Error('employee not found')
-    }
-    const updatedemp= await emp.findById(req.params.id, req.body, {new: true})
+  const emp = await emp.findById(req.params.id);
+  if (!emp) {
+    res.status(400);
+    throw new Error('employee not found');
+  }
+  const user = await user.findById(req.user.id);
+  if (!user) {
+    res.status(401);
+    throw new Error('user not found');
+  }
+  if (emp.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error('user not authraized');
+  }
+  const updatedemp = await emp.findById(req.params.id, req.body, { new: true });
   res.status(201).json(updatedemp);
 });
 
 // delete emp(s) route= DELETE/api/emp:id
 const deleteEmp = asyncHandler(async (req, res) => {
- const emp = await emp.findById(req.params.id);
- if (!emp) {
-   res.status(400);
-   throw new Error('employee not found');
- }
-await emp.remoe()
-  res.status(201).json({id: req.params.id});
+  const emp = await emp.findById(req.params.id);
+  if (!emp) {
+    res.status(400);
+    throw new Error('employee not found');
+  }
+
+  const user = await user.findById(req.user.id);
+  if (!user) {
+    res.status(401);
+    throw new Error('user not found');
+  }
+  if (emp.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error('user not authraized');
+  }
+  
+  await emp.remove();
+  res.status(201).json({ id: req.params.id });
 });
 
 module.exports = {

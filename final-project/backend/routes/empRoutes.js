@@ -6,10 +6,10 @@ const {
   updateEmp,
   deleteEmp,
 } = require('../controllers/empControllers');
+const { protect } = require('../middleware/authmiddleware');
+router.route('/').get(protect, getEmp).post(protect, setEmp);
 
-router.route('/').get(getEmp).post(setEmp);
-
-router.route('/:id').delete(deleteEmp).put(updateEmp);
+router.route('/:id').delete(protect, deleteEmp).put(protect, updateEmp);
 // router.get('/', ( getEmp));
 
 // router.post('/', (setEmp));
