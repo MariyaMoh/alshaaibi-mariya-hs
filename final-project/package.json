@@ -7,7 +7,8 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
     "test": "jest",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "supertest": "^6.2.3"
   },
   "devDependencies": {
+    "concurrently": "^7.2.2",
     "nodemon": "^2.0.18"
   }
 }
