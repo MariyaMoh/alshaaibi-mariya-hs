@@ -28,6 +28,7 @@ function Login() {
 
     if (isSuccess || user) {
       navigate('/');
+      // return
     }
 
     dispatch(reset());
