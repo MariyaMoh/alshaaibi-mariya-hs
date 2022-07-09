@@ -2,20 +2,36 @@ const request = require('supertest');
 
 const app = require('../server');
 
+var token;
 
-let elementId;
+const loginUser = async (email, password) => {
+  const results = await request(app).post('/api/users/login').send({
+    email,
+    password,
+  });
+  return results;
+};
+
+beforeAll(async () => {
+  const results = await loginUser('mariya11@gmail.com', '123');
+  console.log('results', results.body);
+
+  if (results.body.token) token = results.body.token;
+});
 
 describe('Test example', () => {
   test('GET /', (done) => {
     request(app)
-      .get('/')
-      .expect('Content-Type', /json/)
+      .get('/api/notes')
+      .set('Authorization', 'Bearer ' + token)
+      .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(200)
       .expect((res) => {
-        res.body.data.length = 1;
-        res.body.data[0].note = 'test@example.com';
+        console.log(res.body);
+        res.body.length = 2;
       })
       .end((err, res) => {
+        console.log(err);
         if (err) return done(err);
         return done();
       });
@@ -23,38 +39,21 @@ describe('Test example', () => {
 
   test('POST /send', (done) => {
     request(app)
-      .post('/send')
-      .expect('Content-Type', /json/)
+      .post('/api/notes')
+      .set('Authorization', 'Bearer ' + token)
+      .expect('Content-Type', 'application/json; charset=utf-8')
       .send({
-        email: 'francisco@example.com',
+        note: 'dcd',
       })
       .expect(201)
       .expect((res) => {
-        res.body.data.length = 2;
-        res.body.data[0].email = 'test@example.com';
-        res.body.data[1].email = 'francisco@example.com';
+        // console.log(res.body);
+        res.body.data.length = 1;
       })
       .end((err, res) => {
         if (err) return done(err);
-        elementId = res.body.data[1].id;
+
         return done();
       });
   });
-
 });
-
-
-
-
-// describe('Testing  API', () => {
-//   it('tests the base route and returns true for status', async () => {
-//     const response = await supertest(app).post('/api/users', {
-//       name: 'mariya',
-//       email: 'mariya@gmail.com',
-//       password: '1234',
-//     });
-
-//     expect(response.status).toBe(200);
-//     expect(response.body.status).toBe(true);
-//   });
-// });
