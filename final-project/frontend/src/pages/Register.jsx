@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaUser } from 'react-icons/fa';
-import { register, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
+import { SiteContext } from '../context/siteContext';
+import axios from 'axios';
+import { BASE_URL } from '../utils/constant';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -17,23 +18,21 @@ function Register() {
   const { name, email, password, password2 } = formData;
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { siteData, setSiteData } = useContext(SiteContext);
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  // const { user, isLoading, isError, isSuccess, message } = useSelector(
+  //   (state) => state.auth
+  // )
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
+    if (siteData.isError) {
+      toast.error(siteData.message);
     }
 
-    if (isSuccess || user) {
+    if (siteData.isSuccess || siteData.user) {
       navigate('/');
     }
-
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [siteData]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -54,11 +53,20 @@ function Register() {
         password,
       };
 
-      dispatch(register(userData));
+      axios
+        .post(BASE_URL + '/api/users', userData)
+        .then((res) => {
+          if (res.data) {
+            setSiteData({ ...siteData, user: res.data });
+          }
+        })
+        .catch((e) => {
+          setSiteData({ ...siteData, isError: true, message: e.message });
+        });
     }
   };
 
-  if (isLoading) {
+  if (siteData.isLoading) {
     return <Spinner />;
   }
 

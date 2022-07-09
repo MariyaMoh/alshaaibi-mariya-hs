@@ -4,16 +4,18 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+ 
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   height: 100vh;
+   
 }
 
 a {
   text-decoration: none;
-  color: #000;
+  color: rgb(0, 0, 0);
 }
 
 p {
@@ -48,7 +50,7 @@ h3 {
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 2px solid #e6e6e6;
   margin-bottom: 60px;
 }
 
@@ -83,23 +85,23 @@ h3 {
 }
 
 .heading p {
-  color: #828282;
+  color: #e7c8c8;
 }
 
-.goals {
+.notes {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
-.goal {
-  background-color: #f4f4f4;
+.note {
+  background-color: #e7c8c8;
   margin: 10px 0;
   padding: 20px 0 10px;
   position: relative;
 }
 
-.goal .close {
+.note .close {
   position: absolute;
   top: 10px;
   right: 15px;
@@ -112,6 +114,7 @@ h3 {
 .content {
   width: 70%;
   margin: 0 auto;
+
 }
 
 .form-group {
@@ -133,13 +136,14 @@ h3 {
   text-align: left;
   display: block;
   margin: 0 0 5px 3px;
+  
 }
 
 .btn {
   padding: 10px 20px;
   border: 1px solid #000;
   border-radius: 5px;
-  background: #000;
+  background: #e7c8c8;
   color: #fff;
   font-size: 16px;
   font-weight: 700;

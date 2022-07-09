@@ -1,26 +1,32 @@
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout, reset } from '../features/auth/authSlice';
+import { SiteContext } from '../context/siteContext';
+import { useContext } from 'react';
 
 function Header() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+
+  const { siteData, setSiteData } = useContext(SiteContext);
 
   const onLogout = () => {
-    dispatch(logout());
-    dispatch(reset());
+    localStorage.removeItem('user_infov1');
+    setSiteData({ ...siteData, user: null });
     navigate('/');
   };
 
   return (
     <header className="header">
       <div className="logo">
-        <Link to="/">GoalSetter</Link>
+        <Link to="/">NoteSetter</Link>
       </div>
       <ul>
-        {user ? (
+        {siteData.user && (
+          <li>
+            <Link to="/public_notes">Public Notes</Link>
+          </li>
+        )}
+
+        {siteData.user ? (
           <li>
             <button className="btn" onClick={onLogout}>
               <FaSignOutAlt /> Logout
