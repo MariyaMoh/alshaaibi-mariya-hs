@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.1",
     "supertest": "^6.2.3"
+    
   },
   "devDependencies": {
     "concurrently": "^7.2.2",

@@ -21,4 +21,22 @@ const userSchema = mongoose.Schema(
   }
 );
 
+
+
+// Migrate User Models to `TypeScript
+// interface userSchema {
+//   name: string;
+//   email: string;
+//   password: string;
+// }
+
+// const schema =
+//   new Schema() <
+//   userSchemar >
+//   {
+//     name: { type: String, required: true },
+//     email: { type: String, required: true, unique: true },
+//     password:  { type: String}
+//   };
+
 module.exports = mongoose.model('User', userSchema);
