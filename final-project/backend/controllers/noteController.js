@@ -3,9 +3,7 @@ const asyncHandler = require('express-async-handler');
 const Note = require('../models/noteModel');
 const User = require('../models/userModel');
 
-// @desc    Get notes
-// @route   GET /api/notes
-// @access  Private
+
 const getNotes = asyncHandler(async (req, res) => {
   const { search } = req.query;
   let condtion = { user: req.user.id };
@@ -25,9 +23,6 @@ const getPublicNote = asyncHandler(async (req, res) => {
   res.status(200).json(notes);
 });
 
-// @desc    Set note
-// @route   POST /api/notes
-// @access  Private
 const setNote = asyncHandler(async (req, res) => {
   if (!req.body.text) {
     res.status(400);
@@ -43,9 +38,6 @@ const setNote = asyncHandler(async (req, res) => {
   res.status(200).json(note);
 });
 
-// @desc    Update note
-// @route   PUT /api/notes/:id
-// @access  Private
 const updateNote = asyncHandler(async (req, res) => {
   const note = await Note.findById(req.params.id);
 
@@ -73,9 +65,6 @@ const updateNote = asyncHandler(async (req, res) => {
   res.status(200).json(updatedNote);
 });
 
-// @desc    Delete note
-// @route   DELETE /api/notes/:id
-// @access  Private
 const deleteNote = asyncHandler(async (req, res) => {
   const note = await Note.findById(req.params.id);
 
