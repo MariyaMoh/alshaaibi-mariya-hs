@@ -31,7 +31,7 @@ services:
   mongo:
     container_name: mongo
     restart: always
-    image: mongo:4.2.0
+    image: mongo
     volumes:
       - ./data:/data/db
     networks:

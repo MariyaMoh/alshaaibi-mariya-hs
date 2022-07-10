@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { BASE_URL } from '../utils/constant';
 import axios from 'axios';
 import { SiteContext } from '../context/siteContext';
+import RectMarkdoen from 'react-markdown';
 
 function NoteForm() {
   const [text, setText] = useState('');
